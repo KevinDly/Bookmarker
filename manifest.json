@@ -1,0 +1,9 @@
+{
+  "name": "Bookmarker",
+  "description": "A simple bookmark helper",
+  "version": "1.0",
+  "manifest_version": 3
+  "chrome_url_overrides" : {
+    "bookmarks": "bookmarkDisplay.html"
+  }
+}
