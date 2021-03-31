@@ -1,15 +1,26 @@
 import { Button } from 'bootstrap';
 import React, { Component } from 'react';
-import Bookmark from './Bookmark'
+import { Bookmark } from './Bookmark'
 import { Grid } from '@material-ui/core'
 
 
 function GridRow(props){
-    var row = new Array(props.length)
+    var row = new Array(props.width)
     for(var i = 0; i < row.length; i++) {
-        row[i] = <Grid item xs={12/props.length}>
-            hello
-        </Grid>
+        var arrayIndex = props.row * props.width + i;
+        if(arrayIndex < props.info.length) {
+            //If we are still within the bounds of the array
+            //TODO: Use Bookmark component to display
+            row[i] = <Grid item xs={12/props.width}>
+                <Bookmark title = {props.info[arrayIndex]}/>
+            </Grid>
+        }
+        else {
+            //If we don't have any information left, leave a placeholder.
+            row[i] = <Grid item xs={12/props.width}>
+            </Grid>
+        }
+
     }
 
     return row;
@@ -18,8 +29,9 @@ function GridRow(props){
 function GridColumn(props){
     var column = new Array(props.height)
     for(var i = 0; i < column.length; i++) {
+        //TODO: Change spacing to correspond with width?
         column[i] = <Grid container item xs = {12} spacing = {3}>
-            <GridRow length = {props.length}/>
+            <GridRow info = {props.info} row = {i} width = {props.width}/>
         </Grid>
     }
 
@@ -35,11 +47,10 @@ class BookmarkContainer extends Component {
     //info should be mapped to a list of objects that have the information on the bookmark
     //width should be how many tables we have in total.
     createTable() {
-        
         var height = Math.ceil(this.props.info.length/this.props.width);
 
         return <Grid container spacing={1}> 
-            <GridColumn height = {height} length = {4}/> 
+            <GridColumn info = {this.props.info} height = {height} width = {this.props.width}/> 
         </Grid>
     }
 
